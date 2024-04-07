@@ -1,48 +1,44 @@
 {
-    "name": "@daanv2/lsp-object-storage",
-    "version": "1.0.0",
-    "description": "A storage structure that allows to store objects, which are related to file / document or other references, that a LSP might need to store / delete / update.",
-    "author": "DaanV2",
-    "license": "MIT",
-    "main": "dist/src/main.js",
-    "types": "dist/src/main.d.ts",
-    "homepage": "https://github.com/DaanV2/lsp-object-storage#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/DaanV2/lsp-object-storage.git"
-    },
-    "bugs": {
-        "url": "https://github.com/DaanV2/lsp-object-storage/issues"
-    },
-    "files": [
-        "dist/src/**",
-        "!dist/test/**"
-    ],
-    "scripts": {
-        "precompile": "tsc --build --clean",
-        "compile": "tsc --build",
-        "test": "jest",
-        "preversion": "",
-        "postversion": "git push && git push --tags",
-        "version": "git add -A src"
-    },
-    "keywords": [
-        "hue",
-        "library"
-    ],
-    "devDependencies": {
-        "@jest/globals": "^29.5.0",
-        "@types/jest": "^29.5.2",
-        "@types/node-fetch": "^2.6.2",
-        "@vscode/vsce": "^2.19.0",
-        "node": "^20.3.1",
-        "ts-node": "^10.9.1",
-        "typescript": "^5.1.6"
-    },
-    "dependencies": {
-        "@jest/types": "^29.6.3",
-        "jest-junit": "^16.0.0",
-        "node-fetch": "^2.6.12",
-        "ts-jest": "^29.1.2"
-    }
+  "name": "@daanv2/lsp-object-storage",
+  "version": "1.0.0",
+  "description": "A storage structure that allows to store objects, which are related to file / document or other references, that a LSP might need to store / delete / update.",
+  "author": "DaanV2",
+  "license": "MIT",
+  "main": "dist/src/main.js",
+  "types": "dist/src/main.d.ts",
+  "homepage": "https://github.com/DaanV2/lsp-object-storage#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaanV2/lsp-object-storage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DaanV2/lsp-object-storage/issues"
+  },
+  "files": [
+    "dist/src/**",
+    "!dist/test/**"
+  ],
+  "scripts": {
+    "precompile": "tsc --build --clean",
+    "compile": "tsc --build",
+    "test": "jest",
+    "preversion": "",
+    "postversion": "git push && git push --tags",
+    "version": "git add -A src"
+  },
+  "keywords": [
+    "hue",
+    "library"
+  ],
+  "devDependencies": {
+    "@jest/globals": "^29.5.0",
+    "@types/jest": "^29.5.2",
+    "@vscode/vsce": "^2.19.0",
+    "node": "^20.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "@jest/types": "^29.6.3",
+    "jest-junit": "^16.0.0",
+    "ts-jest": "^29.1.2"
+  }
 }
