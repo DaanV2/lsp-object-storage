@@ -8,7 +8,6 @@ env:
 permissions: write-all
 on:
   workflow_dispatch:
-
   push:
     tags:
       - "v*"

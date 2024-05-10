@@ -1,6 +1,6 @@
 {
   "name": "@daanv2/lsp-object-storage",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A storage structure that allows to store objects, which are related to file / document or other references, that a LSP might need to store / delete / update.",
   "author": "DaanV2",
   "license": "MIT",
