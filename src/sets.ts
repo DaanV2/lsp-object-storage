@@ -58,7 +58,8 @@ export class Set<V extends IObject> {
    * @returns True if the value exists, false otherwise
    */
   has(id: string): boolean {
-    return this._data.has(id);
+    const data = this._data.get(id);
+    return data !== undefined && data.length > 0;
   }
 
   /**
@@ -67,11 +68,7 @@ export class Set<V extends IObject> {
    * @returns True if the value was deleted, false otherwise
    */
   delete(id: string): boolean {
-    if (typeof id === "string") {
-      return this._data.delete(id);
-    }
-
-    return this.deleteIf((value) => IObject.equals(value, id)) > 0;
+    return this._data.delete(id);
   }
 
   /**

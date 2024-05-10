@@ -22,6 +22,7 @@
     "precompile": "tsc --build --clean",
     "compile": "tsc --build",
     "test": "jest",
+    "test-watch": "jest --watch",
     "preversion": "",
     "postversion": "git push && git push --tags",
     "version": "git add -A src"

@@ -8,6 +8,10 @@ export const config: Config.InitialOptions = {
     forceExit: true,
     testTimeout: 30 * 60 * 1000,
 
+    collectCoverage: true,
+    coverageDirectory: "reports/coverage",
+    coverageReporters: ["text", "html"],
+
     reporters: [
         "default",
         [

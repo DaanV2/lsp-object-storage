@@ -145,6 +145,21 @@ describe("Set", () => {
 
     expect(value).toBeTruthy();
   });
+
+  it("should return undefined if nothing is found", () => {
+    const set = new Set<TestObject>();
+
+    for (let i = 0; i < 10; i++) {
+      set.add({
+        id: i.toString(),
+        reference: i.toString(),
+        test: i.toString(),
+      });
+    }
+
+    const value = set.find((value) => value.id === "15");
+    expect(value).toBeUndefined();
+  });
 });
 
 describe("ReferenceSet", () => {
@@ -194,5 +209,43 @@ describe("ReferenceSet", () => {
     }
 
     expect(set.byReference.get("someReference")?.length).toEqual(10);
+  });
+
+  it("should be able to delete values by reference", () => {
+    const set = new Set<TestObject>();
+
+    for (let i = 0; i < 10; i++) {
+      set.add({
+        id: i.toString(),
+        reference: "someReference",
+        test: i.toString(),
+      });
+    }
+
+    set.byReference.delete("someReference");
+    expect(set.byReference.get("someReference")).toEqual([]);
+
+    for (let i = 0; i < 10; i++) {
+      expect(set.has(i.toString())).toBeFalsy();
+    }
+  });
+
+  it("should be able to delete values that start with a specific string", () => {
+    const set = new Set<TestObject>();
+
+    for (let i = 0; i < 10; i++) {
+      set.add({
+        id: i.toString(),
+        reference: "someReference",
+        test: i.toString(),
+      });
+    }
+
+    set.byReference.deleteStartWith("some");
+    expect(set.byReference.get("someReference")).toEqual([]);
+
+    for (let i = 0; i < 10; i++) {
+      expect(set.has(i.toString())).toBeFalsy();
+    }
   });
 });
