@@ -167,7 +167,7 @@ export class ReferenceSet<V extends IObject> {
    * @param start The string to check if the reference starts with
    * @returns True if any values were deleted, false otherwise
    */
-  deleteStartWith(start: string): number {
+  deleteStartsWith(start: string): number {
     return this._data.deleteIf((value) => value.reference.startsWith(start));
   }
 }

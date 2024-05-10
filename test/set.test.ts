@@ -241,7 +241,7 @@ describe("ReferenceSet", () => {
       });
     }
 
-    set.byReference.deleteStartWith("some");
+    set.byReference.deleteStartsWith("some");
     expect(set.byReference.get("someReference")).toEqual([]);
 
     for (let i = 0; i < 10; i++) {
