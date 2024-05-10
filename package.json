@@ -4,8 +4,8 @@
   "description": "A storage structure that allows to store objects, which are related to file / document or other references, that a LSP might need to store / delete / update.",
   "author": "DaanV2",
   "license": "MIT",
-  "main": "dist/src/main.js",
-  "types": "dist/src/main.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "homepage": "https://github.com/DaanV2/lsp-object-storage#readme",
   "repository": {
     "type": "git",
