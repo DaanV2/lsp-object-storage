@@ -1,6 +1,4 @@
-import { Container } from "../src/container";
-import { Set } from "../src/sets";
-import { IObject } from "../src/object";
+import { Container, IObject, Set } from "../src";
 
 interface AObject extends IObject {
   a: string;

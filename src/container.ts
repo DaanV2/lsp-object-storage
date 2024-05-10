@@ -1,31 +1,18 @@
+import { KeyOf, PropertyType, PropertyTypes, TypePredicate } from "./generics";
 import { IObject } from "./object";
 import { Set } from "./sets";
+import { ReferenceRecord, ReferenceSpecification } from "./spec";
 
-interface Base {
-  a: IObject & { a: string };
-  b: IObject & { b: number };
-  c: IObject & { c: boolean };
-}
-
-/**
- * This PropertyType is used to get the type of a field of an object
- */
-export type PropertyType<Object, Property extends keyof Object> = Object[Property];
-/**
- * Returns all the property types of an object
- */
-export type PropertyTypes<Object> = Object[KeyOf<Object>];
-export type KeyOf<T> = keyof T;
-
-export type ReferenceRecord<T extends Record<KeyOf<T>, IObject>> = { [P in keyof T]: Set<PropertyType<T, P>> };
-
-export class Container<T extends Record<KeyOf<T>, IObject>> {
+export class Container<T extends ReferenceSpecification<T>> {
   private _data: Partial<ReferenceRecord<T>>;
 
   constructor() {
     this._data = {};
   }
 
+  /**
+   * Gets a modified version of the container that allows for reference based access
+   */
   get byReference(): ReferenceContainer<T> {
     return new ReferenceContainer(this);
   }
@@ -59,7 +46,6 @@ export class Container<T extends Record<KeyOf<T>, IObject>> {
    */
   get<U extends KeyOf<T>>(type: U, id?: string): Set<PropertyType<T, U>> | Array<T[U]> | undefined {
     const set = this._getSet(type);
-
     if (id === undefined) {
       return set;
     }
@@ -123,28 +109,34 @@ export class Container<T extends Record<KeyOf<T>, IObject>> {
    * @param start The string to check if the reference starts with
    * @returns True if any values were deleted, false otherwise
    */
-  deleteIf(predicate: (value: PropertyTypes<T>, id: string, type: KeyOf<T>) => boolean): void {
+  deleteIf(predicate: TypePredicate<T>): number {
+    let deleted = 0;
+
     for (const type in this._data) {
-      this._data[type]?.deleteIf((value, id) => predicate(value, id, type));
+      deleted += this._data[type]?.deleteIf((value, id) => predicate(value, id, type)) ?? 0;
     }
+
+    return deleted;
   }
 
   /**
    * Iterates over all values in the container
    * @param callback The callback function
+   * @param type The type to search in
    */
   forEach(callback: (value: PropertyTypes<T>, id: string, type: KeyOf<T>) => void) {
     for (const type in this._data) {
-      this._data[type]?.forEach((value, id) => callback(value, id, type));
+      this._getSet(type)?.forEach((value, id) => callback(value, id, type));
     }
   }
 
   /**
    * Finds a value in the set
    * @param predicate The predicate function
+   * @param type The type to search in
    * @returns The value if found, undefined otherwise
    */
-  find(predicate: (value: PropertyTypes<T>, id: string, type: KeyOf<T>) => boolean): IObject | undefined {
+  find(predicate: TypePredicate<T>): PropertyTypes<T> | undefined {
     for (const type in this._data) {
       const value = this._getSet(type)?.find((value, id) => predicate(value, id, type));
       if (value) {
@@ -155,13 +147,8 @@ export class Container<T extends Record<KeyOf<T>, IObject>> {
     return undefined;
   }
 
-  /**
-   * Filters the values in the set
-   * @param predicate The predicate function
-   * @returns The values that satisfy the predicate
-   */
-  filter(predicate: (value: PropertyTypes<T>, id: string, type: KeyOf<T>) => boolean): IObject[] {
-    const result: IObject[] = [];
+  filter(predicate: TypePredicate<T>): Array<PropertyTypes<T>> {
+    const result: Array<PropertyTypes<T>> = [];
     for (const type in this._data) {
       const s = this._getSet(type);
       result.push(...s.filter((value, id) => predicate(value, id, type)));
@@ -186,7 +173,7 @@ export class ReferenceContainer<T extends Record<KeyOf<T>, IObject>> {
    * @param value The value to add
    * @returns This set
    */
-  get(reference: string): IObject[] {
+  get(reference: string): Array<PropertyTypes<T>> {
     return this._data.filter((value) => value.reference === reference);
   }
 
@@ -195,8 +182,8 @@ export class ReferenceContainer<T extends Record<KeyOf<T>, IObject>> {
    * @param reference The reference to delete
    * @returns The number of values deleted
    */
-  delete(reference: string): void {
-    this._data.deleteIf((value) => value.reference === reference);
+  delete(reference: string): number {
+    return this._data.deleteIf((value) => value.reference === reference);
   }
 
   /**
@@ -204,7 +191,7 @@ export class ReferenceContainer<T extends Record<KeyOf<T>, IObject>> {
    * @param start The string to check if the reference starts with
    * @returns True if any values were deleted, false otherwise
    */
-  deleteStartsWith(reference: string): void {
-    this._data.deleteIf((value) => value.reference.startsWith(reference));
+  deleteStartsWith(reference: string): number {
+    return this._data.deleteIf((value) => value.reference.startsWith(reference));
   }
 }

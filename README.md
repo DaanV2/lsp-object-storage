@@ -10,15 +10,27 @@ As well as when a file/folder is moved or deleted the objects that are related t
 ## Data structure
 
 ```mermaid
-flowchart TD
-    container[(Container)]
+flowchart LR
+    db[(Database)]
+    container1[(Container)]
+    container2[(Container)]
     set1[(Set)]
     set2[(Set)]
     set3[(Set)]
+    set4[(Set)]
+    set5[(Set)]
+    set6[(Set)]
 
-    container --classes--> set1
-    container --enums--> set2
-    container --constants--> set3
+    db -- workspace foo --> container1
+    db -- workspace foo --> container2
+
+    container1 --classes--> set1
+    container1 --enums--> set2
+    container1 --constants--> set3
+
+    container2 --classes--> set4
+    container2 --enums--> set5
+    container2 --constants--> set6
 ```
 
 **Set**  
